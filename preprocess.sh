@@ -13,11 +13,13 @@ gdalwarp -overwrite  -s_srs EPSG:3031 -t_srs EPSG:3031 -cutline basins/thwaites.
 gdal_translate -of netCDF thwaites.tif thwaites.nc
 # Change variable name to ftt_mask
 ncrename -v mask,ftt_mask thwaites.nc
+ncap2 -s "ftt_mask*=0" -O thwaites.nc thwaites.nc
+cdo setmisstoc,1 thwaites.nc thwaites-filled.nc
 # Add mask to clean input file
-ncks -A -v ftt_mask thwaites.nc albmap_bedmap2_1km_thwaites.nc
+ncks -A -v ftt_mask thwaites-filled.nc albmap_bedmap2_1km_thwaites.nc
 
 # Now remove "missing" values
 cdo setrtomiss,1e4,1e38 albmap_bedmap2_1km_thwaites.nc foo.nc
-cdo -f nc4 -z zip_5 setmisstoc,0 foo.nc albmap_bedmap2_1km_thwaites_clean.nc
+cdo setmisstoc,0 foo.nc albmap_bedmap2_1km_thwaites_clean.nc
 # remove unused file
-rm -rf foo.nc
+rm -rf foo.nc thwaites.nc
