@@ -84,13 +84,13 @@ cmd="$PISM_MPIDO $NN $PISM_EXEC -skip -skip_max $SKIP -i $RESNAMEONE \
 $DO $cmd
 
 # #######################################
-# run with -no_mass (no surface change) on coarse grid for 200ka
+# run with -no_mass (no surface change) on coarse grid for 100ka
 # #######################################
 stage=nomass
 INNAME=$RESNAME
 RESNAME=${RESDIR}${stage}_${GRIDNAME}.nc
 TSNAME=${RESDIR}ts_${stage}_${GRIDNAME}.nc
-RUNTIME=200000
+RUNTIME=100000
 EXTRANAME=${RESDIR}extra_${stage}_${GRIDNAME}.nc
 expackage="-extra_times 0:1000:$RUNTIME -extra_vars bmelt,tillwat,velsurf_mag,temppabase,diffusivity,hardav"
 echo
@@ -111,7 +111,7 @@ stage=run
 INNAME=$RESNAME
 RESNAME=${RESDIR}${stage}_${GRIDNAME}.nc
 TSNAME=${RESDIR}ts_${stage}_${GRIDNAME}.nc
-RUNTIME=100000
+RUNTIME=25000
 EXTRANAME=${RESDIR}extra_${stage}_${GRIDNAME}.nc
 exvars="thk,usurf,velbase_mag,velbar_mag,mask,diffusivity,tauc,bmelt,tillwat,temppabase,hardav,cell_grounded_fraction,ice_area_specific_volume,amount_fluxes,basal_mass_flux_grounded,basal_mass_flux_floating"
 expackage="-extra_times 0:1000:$RUNTIME -extra_vars $exvars"
